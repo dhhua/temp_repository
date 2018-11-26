@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.Arrays;
+import org.springframework.context.ApplicationContext;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
@@ -24,31 +21,21 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     private ResourceFileManager resourceFileManager;
+    @Autowired
+    private ApplicationContext applicationContext;
 
-    private static MainGUI mainGUI;
+    private static MainFrame mainFrame;
 
     public static void main(String[] args) {
-        mainGUI = new MainGUI();
+        mainFrame = new MainFrame();
         SpringApplication.run(Application.class, args);
 
     }
 
+    @Override
     public void run(String... args) throws Exception {
-//        excelService.handleSource(resourceFileManager.getFile(), "核对客户 (2)");
-        JFrame frame = new JFrame("ui");
-        frame.setContentPane(mainGUI.panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        //获取屏幕获取工具
-        Toolkit tool = Toolkit.getDefaultToolkit();
-        Dimension screenSize = tool.getScreenSize();
-        int x = (int) screenSize.getWidth();
-        int y = (int) screenSize.getHeight();
-        frame.setBounds(x - 1200 >> 1, (y - 900 >> 1) - 32, 1200, 900);
-
-        excelService.handleStatics(Arrays.asList(resourceFileManager.getStaticsFile(), resourceFileManager.getStaticsFile2()));
+        mainFrame.setExcelService(excelService);
     }
-
-
 }
+
+

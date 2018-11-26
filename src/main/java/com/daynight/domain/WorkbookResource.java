@@ -47,7 +47,11 @@ public class WorkbookResource {
     }
 
     public Sheet getOrderSheet() {
-        return this.workbook.getSheet(orderSheetName);
+        Sheet sheet = this.workbook.getSheet(orderSheetName);
+        if (sheet == null) {
+            return this.workbook.getSheetAt(0);
+        }
+        return sheet;
     }
 
     private String getCellStringVal(Cell cell) {

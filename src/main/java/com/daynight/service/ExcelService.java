@@ -24,7 +24,7 @@ public class ExcelService {
 
 
 
-    public void handleSource(File sourceFile, String sheetName) {
+    public void handleSource(File sourceFile, String sheetName, String dest) {
 
         WorkbookResource workbookResource = new WorkbookResource(sourceFile);
         workbookResource.setOrderSheetName(sheetName);
@@ -38,7 +38,7 @@ public class ExcelService {
         List<Order> mergedOrders = mergeOrder(sortedMap);
 
         try {
-            export(mergedOrders, "/Users/honghua.dong/Documents/svnworkspace/prolongs-life/src/main/resources/终端.xls");
+            export(mergedOrders, dest);
         } catch (IOException e) {
             e.printStackTrace();
         }
