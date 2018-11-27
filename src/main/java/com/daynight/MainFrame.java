@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Arrays;
 
 /**
  * @author donghonghua
@@ -117,9 +118,20 @@ public class MainFrame extends JFrame implements ActionListener {
                 }
             }
         } else if (e.getSource().equals(exportStatistics)) {
-
+            int state = fileChooser.showSaveDialog(null);
+            if (state == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                String fileName = file.getName();
+                if (!(fileName.toLowerCase().endsWith(".xls") || fileName.toLowerCase().endsWith(".xlsx"))) {
+                    JOptionPane.showMessageDialog(null, "选择的文件名后缀不正确!", "提示", JOptionPane.ERROR_MESSAGE);
+                } else if (StringUtils.isEmpty(text2.getText())) {
+                    JOptionPane.showMessageDialog(null, "还没有选择文件夹!", "提示", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    excelService.handleStatics(Arrays.asList(new File(text2.getText()).listFiles()), file.getAbsolutePath());
+                    JOptionPane.showMessageDialog(null, "导出成功", "提示", JOptionPane.PLAIN_MESSAGE);
+                }
+            }
         }
-
     }
 
     public void setExcelService(ExcelService excelService) {
